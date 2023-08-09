@@ -1,0 +1,59 @@
+#topForm .form-group{margin-bottom: 12px;}
+#topForm .form-control, #topForm .form-select{ padding: 8px 18px;border: 1px solid #C9CCD2; font-size: 16px;
+  line-height: 24px;
+  font-family: 'Inter';
+  font-weight: 400; color:#606268; }
+.modal-header{border-bottom: transparent;}
+.modal-header p{margin-bottom: 5px;}
+.already-registered .card, .success .card{border:none;padding: 50px 0 35px;}
+.already-registered .card .card-title{font-size: 18px;
+    margin: 20px 0 40px;
+    font-weight: 500;
+    line-height: 22px;}
+.success .card .card-title{font-size:24px;margin-bottom:20px;font-weight: bold;line-height: 29px;}
+.okay-btn{padding:10px 70px;}
+.stimezone{text-align: center; font-size: 14px;}
+.stimezone label, .stimezone select {
+    display: inline-block;
+    width: unset;
+    padding: 0;
+}
+.stimezone select, .stimezone select:hover, .stimezone select:focus, .stimezone select:focus-visible {
+    width: calc(100% - 90px);
+    border: unset;
+}
+
+.stimezone select option{margin: 3px;}
+#topForm input[type=tel] {padding-left: 108px !important;}
+.stimezone select, .stimezone select:focus-visible{outline: unset; cursor: pointer;border: unset;}
+.sdatepicker-wrap .form-control {width: 100%;background: url(../images/datepicker-icon.png) no-repeat right 10px center;} 
+.datepicker-days {font-size: 95%;}
+
+.waviy {
+  position: relative;
+  -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+  font-size: 14px;
+}
+.waviy span {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  animation: waviy 2s infinite;
+  animation-delay: calc(.1s * var(--i));
+  font-weight: bold;
+  letter-spacing: -3px;
+}
+@keyframes waviy {
+  0%,40%,100% {
+    transform: translateY(0)
+  }
+  20% {
+    transform: translateY(-15px)
+  }
+}
+@media (max-width: 480px){
+	.card-body{padding: 1rem 0!important;}
+	.already-registered .card .card-title, .success .card .card-title {
+	    font-size: 20px!important;
+	}
+}

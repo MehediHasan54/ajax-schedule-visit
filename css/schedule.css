@@ -43,6 +43,184 @@
   font-weight: bold;
   letter-spacing: -3px;
 }
+
+    .select_time_slot_hd{
+        width: 420px;
+        text-align: center;
+        border: 1px solid rgb(152, 175, 244);
+        border-radius: 4px;
+    }
+    .select_time_slot_hd ul  .active{
+      background-color: rgba(51, 102, 255, 1);
+      color: #fff;
+    }
+    .select_time_slot_hd ul  .active p{
+      color: #fff;
+    }
+    .select_time_slot_hd ul  .active span svg path{
+      fill: #fff;
+    }
+    .select_time_slot_hd img{
+       object-fit: contain;
+    }
+    .select_time_slot_hd ul{
+        margin: 0px;
+        padding: 0px;
+       
+    }
+    ul.dropdown-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+    }
+    ul.dropdown-list span{
+    display: flex;
+    height: 25px;
+    }
+    ul.dropdown-list span p{
+        font-family: "Inter";
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: rgba(86, 86, 86, 1);
+        padding-left: 5px;
+        
+    }
+    .select_time_slot{
+        background-color: rgba(51, 102, 255, 1);
+        color: #fff;
+        height: 43px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .select_time_slot h6{
+        font-family: "Inter";
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #fff;
+    }
+    .select_date_slot h6{
+        font-family: "Inter";
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: rgba(130, 134, 141, 1);
+        margin: 20px 0px 0px;
+    }
+    .select_date_slot p{
+        font-family: "Inter";
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: rgba(130, 134, 141, 1);
+        margin-bottom: 15px;
+    }
+    .select_time_slot_hd ul li{
+        list-style: none;
+        width: 40%;
+        margin: 3px;
+        padding: 8px 0px 0px 20px;
+        border: 1px solid rgba(230, 230, 230, 1);
+        border-radius: 2px;
+        color: rgba(86, 86, 86, 1);
+        text-align: left;
+        font-family: "Inter";
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: left;
+
+    }
+    .select_time_slot_hd ul li:last-child {
+      margin-right: 42%!important;
+      margin-bottom: 10px;
+  }
+    .select_time_slot_hd ul li img{
+       display: none;
+    }
+    .select_time_slot_hd ul li.active img{
+       display: inline-block;
+    }
+    .select_time_slot_hd ul li:hover{
+        background-color: rgba(51, 102, 255, 1);
+        color: #fff;
+    }
+    .select_time_slot_hd ul li:hover span p{
+        color: #fff;
+    }
+    .select_time_slot_hd ul li:hover span svg path{
+        fill: #fff;
+    }
+    .custom-dropdown {
+      position: absolute;
+      background: #fff;
+      left: 40px;
+      top: -15px;
+      z-index: 1;
+  }
+  .dropdown-timeselect{
+    border: 1px solid #C9CCD2;
+    padding: 10px 18px;
+    border-radius: 4px;
+    position: relative;
+    text-align: left;
+  }
+  .dropdown-timeselect .arrow:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 7px;
+    height: 7px;
+    margin-left: 8px;
+    vertical-align: 4px;
+    border-top: 2px solid #4D4F55;
+    border-right: 2px solid #4D4F55;
+    transform: rotate(135deg);
+  }
+  
+label.mmobile_level {
+    display: flex;
+    font-family: "Inter";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    padding-bottom: 10px;
+    text-align: left;
+}
+.dropdown_timeselect_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); 
+  display: none; 
+  z-index: 1000; 
+}
+
+@media only screen and (max-width: 769px) {
+  .select_time_slot_hd{
+    width: 280px;
+}
+.custom-dropdown {
+  left: 10px;
+}
+}
 @keyframes waviy {
   0%,40%,100% {
     transform: translateY(0)
@@ -57,3 +235,4 @@
 	    font-size: 20px!important;
 	}
 }
+

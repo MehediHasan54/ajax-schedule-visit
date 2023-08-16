@@ -162,7 +162,62 @@ jQuery(function ($) {
     );
   });
 });
+// // Get the current time
+// var now = new Date();
+// var currentHours = now.getHours();
+// var currentMinutes = now.getMinutes();
 
-jQuery("#datepicker").datepicker({
-  startDate: new Date(),
-});
+// // Get the select element
+// var select = document.getElementById("timeSlotSelect");
+
+// // Loop through each option in the select element
+// for (var i = 0; i < select.options.length; i++) {
+//   var optionValue = select.options[i].value;
+//   if (optionValue !== "") {
+//     var optionTimeParts = optionValue.split(/:| /);
+//     var optionHours = parseInt(optionTimeParts[0]);
+//     var optionMinutes = parseInt(optionTimeParts[1]);
+
+//     if (optionTimeParts[2] === "AM" && optionHours === 12) {
+//       optionHours = 0;
+//     } else if (optionTimeParts[2] === "PM" && optionHours !== 12) {
+//       optionHours += 12;
+//     }
+
+//     // Compare the option time with the current time
+//     if (optionHours < currentHours || (optionHours === currentHours && optionMinutes <= currentMinutes)) {
+//       select.options[i].disabled = true; // Disable past time slots
+//       select.options[i].style.backgroundColor = "#f2f2f2";
+//     }
+//   }
+// }
+
+
+
+  jQuery("#datepicker").datepicker({
+    startDate: '+1d', // Disable today's date and previous dates
+    daysOfWeekDisabled: [5, 6], // Disable weekend 
+    datesDisabled: [ // Disable government holiday's
+      '02/21/2023', 
+      '03/08/2023', 
+      '03/17/2023', 
+      '03/26/2023', 
+      '04/14/2023', 
+      '04/19/2023', 
+      '04/21/2023', 
+      '04/20/2023', 
+      '05/01/2023', 
+      '05/04/2023', 
+      '06/26/2023', 
+      '07/17/2023', 
+      '07/29/2023', 
+      '08/15/2023', 
+      '09/06/2023', 
+      '09/27/2023', 
+      '10/24/2023', 
+      '12/16/2023', 
+      '12/25/2023', 
+    ],
+    assumeNearbyYear: true
+  });
+ 

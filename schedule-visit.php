@@ -42,11 +42,12 @@ if ( !class_exists('schedule_visit', false) ) {
 				wp_enqueue_script('intlTelInput-script', plugins_url('js/intlTelInput.js', __FILE__), array('jquery'), '1.0', true);
 
 				if ( ! is_page_template( 'page-request-a-demo.php' ) ) {
-					wp_enqueue_style( 'schedule-css',plugins_url('css/schedule.css', __FILE__), array(), '5.8.4' );
+					wp_enqueue_style( 'schedule-css',plugins_url('css/schedule.css', __FILE__));
 
 					//wp_enqueue_style( 'schedule-css', plugins_url( 'css/schedule.css', __FILE__ ), array(), '12345' );
 
-					wp_enqueue_script('schedule-script', plugins_url('js/schedule.js', __FILE__), array('jquery'), '1.9', true);
+					wp_enqueue_script('schedule-script', plugins_url('js/schedule.js', __FILE__), array('jquery'), '2', true);
+					wp_enqueue_script('schedule1-script', plugins_url('js/schedule1.js', __FILE__));
 				}
 
 				wp_localize_script('schedule-script', 'ajax_schedule', array(
@@ -105,9 +106,7 @@ if ( !class_exists('schedule_visit', false) ) {
 			echo '</div></div>';
 
 			echo '<div class="row mb-3"><div class="col">';
-			if(is_page_template("page-request-a-demo.php")){
-				echo '<label class="mprequest" >Enter your mobile </label>';
-		   }
+			echo '<label class="mmobile_level" >Enter your mobile </label>';
 			echo '<input type="tel" class="form-control text-field" name="cf-mobile"  id="phone" style="padding-left: 125px;" placeholder="Enter Your Mobile" autocomplete="off" required="required" value="' . ( isset( $_POST["cf-mobile"] ) ? esc_attr( $_POST["cf-mobile"] ) : '' ) . '" size="40" />';
 			echo '</div></div>';
 			echo '<input type="hidden" name="country"  id="country_code" value="">';
@@ -143,27 +142,90 @@ if ( !class_exists('schedule_visit', false) ) {
 
            
             echo '<div class="col">';
-            echo '<select class="form-select text-field" aria-label="Default select example" name="booking_time" required>
-		      <option value="">Select Time</option>
-		      <option value="8:00 AM">8:00 AM</option>
-		      <option value="9:00 AM">9:00 AM</option>
-		      <option value="10:00 AM">10:00 AM</option>
-		      <option value="11:00 AM">11:00 AM</option>
-		      <option value="12:00 PM">12:00 PM</option>
-		      <option value="1:00 PM">1:00 PM</option>
-		      <option value="2:00 PM">2:00 PM</option>
-		      <option value="3:00 PM">3:00 PM</option>
-		      <option value="4:00 PM">4:00 PM</option>
-		      <option value="5:00 PM">5:00 PM</option>
-		      <option value="6:00 PM">6:00 PM</option>
-		      <option value="7:00 PM">7:00 PM</option>
-		      <option value="8:00 PM">8:00 PM</option>
-		    </select>';
+            echo ' <input class="form-select text-field" aria-label="Default select example" 
+			name="booking_time" type="hidden" id="selectedTime"">
+			<div class="dropdown-header dropdown-timeselect" onclick="toggleDropdown()">
+			  Select Time
+			  <i class="arrow"></i>
+			</div>
+			<div class="custom-dropdown">
+			
+			<div class="select_time_slot_hd" style="display: none;"> 
+			<div class="select_time_slot">
+				<h6>Select Time Slot</h6>
+			</div>
+			<div class="select_date_slot">
+				<h6>'. date("l, j F").'</h6>
+				<p class=""></p>
+			</div>
+			<ul class="dropdown-list">
+      <li class="" onclick="selectTime(`9:00 AM - 9:30 AM`)">9:00 AM - 9:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`10:00 AM - 10:30 AM`)">10:00 AM - 10:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`11:00 AM - 11:30 AM`)">11:00 AM - 11:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`12:00 AM - 12:30 AM`)">12:00 AM - 12:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`1:00 PM - 1:30 PM`)">1:00 PM - 1:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`2:00 PM - 2:30 PM`)">2:00 PM - 2:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`3:00 PM - 3:30 PM`)">3:00 PM - 3:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`4:00 PM - 4:30 PM`)">4:00 PM - 4:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`5:00 PM - 5:30 PM`)">5:00 PM - 5:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`6:00 PM - 6:30 PM`)">6:00 PM - 6:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`9:00 PM - 9:30 PM`)">9:00 PM - 9:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`10:00 PM - 10:30 PM`)">10:00 PM - 10:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`11:00 PM - 11:30 PM`)">11:00 PM - 11:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`12:00 AM - 12:30 AM`)">12:00 AM - 12:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+      <li onclick="selectTime(`1:00 AM - 1:30 AM`)">1:00 AM - 1:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
+        </svg><p> 30min</p></span> </li>
+    </ul>
+		  </div>
+		  </div>
+		 
+		    ';
 		    echo '</div></div>';
-           
-			if(is_page_template("page-request-a-demo.php")){
-				echo '<label class="mprequest" >Your message</label>';
-		   }
+			echo '<label class="mmobile_level" >Your message</label>';
 			echo '<div class="row mb-3"><div class="col">';
 			echo '<textarea class="form-control text-field" name="cf-message"  placeholder="Message..." required="required" autocomplete="off"  value="' . ( isset( $_POST["cf-message"] ) ? esc_attr( $_POST["cf-message"] ) : '' ) . '" rows="3"/></textarea>';
 			echo '</div></div>';

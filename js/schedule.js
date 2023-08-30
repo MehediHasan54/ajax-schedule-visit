@@ -15,24 +15,55 @@
 
 // document.getElementById("mdatepicker").setAttribute('min',minDate);
 
-var initialcountry = sessionStorage.getItem("countrycode");
-//console.log(initialcountry);
-var input = document.querySelector("#phone");
+// var initialcountry = sessionStorage.getItem("countrycode");
+// //console.log(initialcountry);
+// var input = document.querySelector("#phone");
 
-window.intlTelInput(input, {
-  // autoPlaceholder: true,
-  initialCountry: initialcountry,
-  geoIpLookup: function (callback) {
-    $.get("http://ipinfo.io", function () {}, "jsonp").always(function (resp) {
-      var countryCode = resp && resp.country ? resp.country : "";
-      callback(countryCode);
-    });
-  },
-  hiddenInput: "mobile_number",
-  separateDialCode: true,
-  utilsScript:
-    "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/js/utils.js",
+// window.intlTelInput(input, {
+//   // autoPlaceholder: true,
+//   initialCountry: initialcountry,
+//   geoIpLookup: function (callback) {
+//     $.get("http://ipinfo.io", function () {}, "jsonp").always(function (resp) {
+//       var countryCode = resp && resp.country ? resp.country : "";
+//       callback(countryCode);
+//     });
+//   },
+//   hiddenInput: "mobile_number",
+//   separateDialCode: true,
+//   utilsScript:
+//     "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/js/utils.js",
+// });
+
+// JavaScript
+var initialCountry = sessionStorage.getItem("countrycode");
+var input = document.querySelector("#phone");
+var errorMessage = document.querySelector("#error-message");
+var instance;
+
+instance = window.intlTelInput(input, {
+    initialCountry: initialCountry,
+    geoIpLookup: function(callback) {
+        $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+            var countryCode = (resp && resp.country) ? resp.country : "";
+            callback(countryCode);
+        });
+    },
+    hiddenInput: "mobile_number",
+    separateDialCode: true,
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.3/build/js/utils.js"
 });
+
+input.addEventListener("input", function() {
+    var isValid = instance.isValidNumber();
+    if (isValid) {
+        errorMessage.textContent = ""; // Clear error message
+    } else {
+        errorMessage.textContent = "Invalid phone number"; // Display error message
+    }
+});
+
+
+
 
 //console.log($clienttimezone);
 var iti = window.intlTelInputGlobals.getInstance(input);

@@ -12,19 +12,54 @@
     line-height: 22px;}
 .success .card .card-title{font-size:24px;margin-bottom:20px;font-weight: bold;line-height: 29px;}
 .okay-btn{padding:10px 70px;}
-.stimezone{text-align: center; font-size: 14px;}
+.submit_btn1{
+  width: 100%!important; 
+  padding: 8px 0px!important;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+  margin-top: 15px;
+}
+.submit_btn{
+  width: 100%!important; 
+  padding: 8px 0px!important;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+  margin-top: 15px;
+}
+.stimezone{
+  text-align: center;
+  font-size: 14px;
+  border-radius: 4px;
+  width: 100%;
+  margin: auto auto 20px auto;
+  text-align: left;
+  border: 1px solid #C9CCD2;
+}
 .stimezone label, .stimezone select {
     display: inline-block;
     width: unset;
     padding: 0;
 }
+.offset-pad{
+  padding-right: 0px;
+    padding-left: calc(var(--bs-gutter-x) * .3);
+}
+.modal-content{
+  width: 120%!important;
+  padding: 15px 30px!important;
+}
 .stimezone select, .stimezone select:hover, .stimezone select:focus, .stimezone select:focus-visible {
-    width: calc(100% - 90px);
-    border: unset;
+    width: 100%;
 }
 
 .stimezone select option{margin: 3px;}
-#topForm input[type=tel] {padding-left: 108px !important;}
+#topForm input[type=tel] {padding-left: 100px !important;}
 .stimezone select, .stimezone select:focus-visible{outline: unset; cursor: pointer;border: unset;}
 .sdatepicker-wrap .form-control {width: 100%;background: url(../images/datepicker-icon.png) no-repeat right 10px center;} 
 .datepicker-days {font-size: 95%;}
@@ -45,10 +80,10 @@
 }
 
     .select_time_slot_hd{
-        width: 420px;
+        width: 500px;
         text-align: center;
-        border: 1px solid rgb(152, 175, 244);
-        border-radius: 4px;
+        box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+        border-radius: 8px;
     }
     .select_time_slot_hd ul  .active{
       background-color: rgba(51, 102, 255, 1);
@@ -62,6 +97,8 @@
     }
     .select_time_slot_hd img{
        object-fit: contain;
+       margin-left: 10px;
+       margin-bottom: 2px;
     }
     .select_time_slot_hd ul{
         margin: 0px;
@@ -73,6 +110,7 @@
     flex-wrap: wrap;
     margin: auto;
     justify-content: center;
+    padding: 15px 0px;
     }
     ul.dropdown-list span{
     display: flex;
@@ -96,6 +134,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
     }
     .select_time_slot h6{
         font-family: "Inter";
@@ -128,9 +168,9 @@
     }
     .select_time_slot_hd ul li{
         list-style: none;
-        width: 40%;
-        margin: 3px;
-        padding: 8px 0px 0px 20px;
+        width: 35%;
+        margin: 7px;
+        padding: 10px 10px;
         border: 1px solid rgba(230, 230, 230, 1);
         border-radius: 2px;
         color: rgba(86, 86, 86, 1);
@@ -143,10 +183,7 @@
         text-align: left;
 
     }
-    .select_time_slot_hd ul li:last-child {
-      margin-right: 42%!important;
-      margin-bottom: 10px;
-  }
+  
     .select_time_slot_hd ul li img{
        display: none;
     }
@@ -166,8 +203,8 @@
     .custom-dropdown {
       position: absolute;
       background: #fff;
-      left: 40px;
-      top: -15px;
+      left: 20px;
+      top: -40px;
       z-index: 1;
   }
   .dropdown-timeselect{
@@ -199,8 +236,9 @@ label.mmobile_level {
     font-weight: 500;
     line-height: 22px;
     letter-spacing: 0em;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     text-align: left;
+    margin-top: -4px;
 }
 .dropdown_timeselect_overlay {
   position: fixed;
@@ -212,7 +250,185 @@ label.mmobile_level {
   display: none; 
   z-index: 1000; 
 }
+.datepicker th.dow {
+  font-family: "Inter";
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: rgba(37, 55, 72, 1);
+  padding: 15px 0px;
+}
+.datepicker .datepicker-switch, .datepicker .next, .datepicker .prev, .datepicker tfoot tr th {
+  cursor: pointer;
+  font-family: "Inter";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: rgba(77, 101, 124, 1);
+}
+.datepicker td, .datepicker th {
+  color: rgba(51, 102, 255, 1);
+}
+.datepicker td {
+  padding: 5px;
+}
 
+.text-field::-webkit-input-placeholder { /* Edge */
+  font-family: "Inter";
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0em;
+  text-align: left;
+  color: rgba(101, 111, 120, 1);
+}
+
+.text-field:-ms-input-placeholder { /* Internet Explorer */
+  font-family: "Inter";
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: left;
+    color: rgba(101, 111, 120, 1);
+}
+
+.text-field::placeholder {
+  font-family: "Inter";
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: left;
+    color: rgba(101, 111, 120, 1);
+}
+.sucess_message_and_selectDateTime{
+  background-color: rgba(247, 247, 247, 1);
+  width: 300px;
+  margin: auto;
+  border-radius: 8px;
+ }
+ .sucess_message_and_selectDateTime ul li{
+   list-style: none;
+ }
+ .sucess_message_and_selectDateTime ul li span{
+   font-family: "Inter";
+   font-size: 14px;
+   font-weight: 400;
+   line-height: 24px;
+   letter-spacing: 0.0015em;
+   text-align: center;
+   color: rgba(125, 125, 125, 1);
+ }
+ .sucess_message_and_selectDateTime ul li p{
+ text-align: left;
+ margin: 10px;
+ line-height: 20px;
+ }
+ .sucess_message_and_selectDateTime ul li{
+  display: flex;
+  align-items: center;
+ }
+ .schedule-msg .btn{
+  width: 300px;
+}
+.success .card .card-title {
+  font-size: 20px!important;
+  margin-bottom: 0px!important;
+  font-weight: bold;
+  line-height: 29px;
+}
+
+/* Timezone popup style  */
+.dropdownTimeZone{
+  position: absolute;
+  background-color: #fff;
+ width: 500px;
+ height: 345px;
+ bottom: 45%;
+ left: 20px;
+ box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+ border-radius: 8px;
+}
+.dropdownTimeZone ul{
+  margin: 0px;
+  padding: 0px;
+}
+.dropdownTimeZone ul li{
+  list-style: none;
+  padding: 5px 30px;
+}
+.dropdownTimeZone ul li.active{
+  background-color: rgba(51, 102, 255, 1);
+ color: #fff;
+}
+.dropdownTimeZone ul li:hover{
+ background-color: rgba(51, 102, 255, 1);
+ color: #fff;
+}
+.dropdownTimeZone ul {
+  width: 470px;
+  height: 300px;
+  overflow-y: scroll;
+  bottom: 25px;
+  position: absolute;
+  z-index: 1000;
+  background: #fff;
+  left: 0px;
+  border-radius: 8px;
+}
+.dropdown-header1.dropdown-timezone {
+  position: relative;
+  padding: 9px;
+}
+.dropdown-header1.dropdown-timezone p {
+font-family: "Inter";
+font-size: 14px;
+font-weight: 400;
+letter-spacing: 0em;
+text-align: left;
+color: rgba(101, 111, 120, 1);
+margin: 0px;
+}
+.dropdown-header1 .arrow:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: 4px;
+  top: 12px;
+  width: 7px;
+  height: 7px;
+  margin-left: 8px;
+  vertical-align: 4px;
+  border-top: 2px solid #4D4F55;
+  border-right: 2px solid #4D4F55;
+  transform: rotate(135deg);
+}
+/* width */
+.dropdownTimeZone ::-webkit-scrollbar {
+width: 5px;
+height: 450px;
+}
+
+/* Track */
+.dropdownTimeZone ::-webkit-scrollbar-track {
+box-shadow: inset 0 0 5px rgba(230, 230, 230, 1); 
+border-radius: 10px;
+height: 450px;
+}
+
+/* Handle */
+.dropdownTimeZone ::-webkit-scrollbar-thumb {
+background: gray; 
+border-radius: 10px;
+height: 40px;
+}
+
+/* Handle on hover */
+.dropdownTimeZone ::-webkit-scrollbar-thumb:hover {
+background: #b30000; 
+}
 @media only screen and (max-width: 769px) {
   .select_time_slot_hd{
     width: 280px;

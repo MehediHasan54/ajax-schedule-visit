@@ -1,7 +1,7 @@
 function toggleDropdown() {
 
-    const overlay = document.querySelector('.dropdown_timeselect_overlay'); 
-    overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+    // const overlay = document.querySelector('.dropdown_timeselect_overlay'); 
+    // overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
 
     const dropdownList = document.querySelector('.select_time_slot_hd');
     dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
@@ -32,6 +32,16 @@ function toggleDropdown() {
         this.classList.add("active");
       });
     });
- 
+    document.body.addEventListener('click', function(event) {
+      const dropdownHeader = document.querySelector('.dropdown-header.dropdown-timeselect');
+    
+      // Check if the clicked element is not the dropdown header
+      if (!dropdownHeader.contains(event.target)) {
+        const dropdownList1 = document.querySelector('.select_time_slot_hd');
+        dropdownList1.style.display = 'none';
+      
+        const arrow = document.querySelector('.arrow');
+      }
+    });
   
   });

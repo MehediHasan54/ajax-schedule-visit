@@ -98,31 +98,29 @@ if ( !class_exists('schedule_visit', false) ) {
 				echo '<input type="hidden" value="'.esc_url( $_SERVER['REQUEST_URI'] ).'" name="utm_source" id="name">';
 		   
 			echo '<div class="row mb-3"><div class="col">';
+			// echo '<label class="mmobile_level" >Full Name </label>';
 			echo '<input type="text" class="form-control text-field" name="cf-name" id="name" placeholder="Enter Your Name" required="required" autocomplete="off" pattern="[a-zA-Z0-9 ]+" value="'.( isset( $_POST["cf-name"] ) ? esc_attr( $_POST["cf-name"] ) : '' ) . '" size="40" />';
 			echo '</div></div>';
 
 			echo '<div class="row mb-3"><div class="col">';
-			echo '<input type="email" class="form-control text-field" name="cf-email" id="email" placeholder="Enter Your Email" required="required" autocomplete="off" value="'.( isset( $_POST["cf-email"] ) ? esc_attr( $_POST["cf-email"] ) : '' ) . '" size="40" />';
+			echo '<input type="email" class="form-control text-field" name="cf-email" id="email" placeholder="Enter Your Email" required="required" autocomplete="off" value="'.( isset( $_GET["cf-email"] ) ? esc_attr( $_GET["cf-email"] ) : ( isset( $_GET["email"] ) ? esc_attr( $_GET["email"] ) : '' ) ) .
+			'" size="40" />';
 			echo '</div></div>';
 
 			echo '<div class="row mb-3"><div class="col">';
-			echo '<label class="mmobile_level" >Enter your mobile </label>';
 			echo '<input type="tel" class="form-control text-field" name="cf-mobile"  id="phone" style="padding-left: 125px;" placeholder="Enter Your Mobile" autocomplete="off" required="required" value="' . ( isset( $_POST["cf-mobile"] ) ? esc_attr( $_POST["cf-mobile"] ) : '' ) . '" size="40" />';
 			echo '</div></div>';
 			echo '<input type="hidden" name="country"  id="country_code" value="">';
 			echo '<input type="hidden" name="calling_code"  id="calling_code" value="">';
+			echo '<div style="color:red; font-size:14px; margin-top:0px;" id="error-message" class="error-message"></div>';
 
 			echo '<div class="row mb-3"><div class="col">';
 			echo '<input type="text" class="form-control text-field" name="cf-organization"  id="organization" placeholder="Enter Your Organization" autocomplete="off" required="required" value="' . ( isset( $_POST["cf-organization"] ) ? esc_attr( $_POST["cf-organization"] ) : '' ) . '" size="40" />';
 			echo '</div></div>';
 
-
-			echo '<div class="form-group row stimezone mb-3">
-				<div class="offset-md-2 col-md-8">
-					<label for="timezone"><strong>Time zone:</strong></label>';
+			echo '<div class="row stimezone">';
 					include( plugin_dir_path( __FILE__ ) . 'timezonelists.php');
-			echo '</div></div>';
-
+			echo '</div>';
 
 			/*
 			 echo '<div class="form-group row">
@@ -137,7 +135,7 @@ if ( !class_exists('schedule_visit', false) ) {
 			</div>';
 */
 			echo '<div class="row"><div class="col">';
-            echo ' <div class="start_date input-group mb-3 sdatepicker-wrap"><input class="form-control start_date text-field" type="text" placeholder="Select Date" id="datepicker" name="booking_date" autocomplete="off" required>';
+            echo ' <div class="start_date input-group mb-3 sdatepicker-wrap "><input class="form-control start_date text-field" type="text" placeholder="Select Date" id="datepicker" name="booking_date" autocomplete="off" required>';
             echo '</div></div>';
 
            
@@ -154,82 +152,32 @@ if ( !class_exists('schedule_visit', false) ) {
 			<div class="select_time_slot">
 				<h6>Select Time Slot</h6>
 			</div>
-			<div class="select_date_slot">
-				<h6>'. date("l, j F").'</h6>
-				<p class=""></p>
-			</div>
 			<ul class="dropdown-list">
-      <li class="" onclick="selectTime(`9:00 AM - 9:30 AM`)">9:00 AM - 9:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`10:00 AM - 10:30 AM`)">10:00 AM - 10:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`11:00 AM - 11:30 AM`)">11:00 AM - 11:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`12:00 AM - 12:30 AM`)">12:00 AM - 12:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`1:00 PM - 1:30 PM`)">1:00 PM - 1:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`2:00 PM - 2:30 PM`)">2:00 PM - 2:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`3:00 PM - 3:30 PM`)">3:00 PM - 3:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`4:00 PM - 4:30 PM`)">4:00 PM - 4:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`5:00 PM - 5:30 PM`)">5:00 PM - 5:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`6:00 PM - 6:30 PM`)">6:00 PM - 6:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`9:00 PM - 9:30 PM`)">9:00 PM - 9:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`10:00 PM - 10:30 PM`)">10:00 PM - 10:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`11:00 PM - 11:30 PM`)">11:00 PM - 11:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`12:00 AM - 12:30 AM`)">12:00 AM - 12:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
-      <li onclick="selectTime(`1:00 AM - 1:30 AM`)">1:00 AM - 1:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.42308C3.69609 1.42308 1.42308 3.69609 1.42308 6.5C1.42308 9.30391 3.69609 11.5769 6.5 11.5769C9.30391 11.5769 11.5769 9.30391 11.5769 6.5C11.5769 3.69609 9.30391 1.42308 6.5 1.42308ZM0.5 6.5C0.5 3.18629 3.18629 0.5 6.5 0.5C9.81371 0.5 12.5 3.18629 12.5 6.5C12.5 9.81371 9.81371 12.5 6.5 12.5C3.18629 12.5 0.5 9.81371 0.5 6.5Z" fill="#565656"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50011 2.80771C6.75501 2.80771 6.96165 3.01435 6.96165 3.26925V6.03848H9.73088C9.98578 6.03848 10.1924 6.24512 10.1924 6.50002C10.1924 6.75492 9.98578 6.96156 9.73088 6.96156H6.50011C6.24521 6.96156 6.03857 6.75492 6.03857 6.50002V3.26925C6.03857 3.01435 6.24521 2.80771 6.50011 2.80771Z" fill="#565656"/>
-        </svg><p> 30min</p></span> </li>
+      <li class="" onclick="selectTime(`9:00 AM - 9:30 AM`)">9:00 AM - 9:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`10:00 AM - 10:30 AM`)">10:00 AM - 10:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`11:00 AM - 11:30 AM`)">11:00 AM - 11:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`12:00 AM - 12:30 AM`)">12:00 AM - 12:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`1:00 PM - 1:30 PM`)">1:00 PM - 1:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`2:00 PM - 2:30 PM`)">2:00 PM - 2:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`3:00 PM - 3:30 PM`)">3:00 PM - 3:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`4:00 PM - 4:30 PM`)">4:00 PM - 4:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`5:00 PM - 5:30 PM`)">5:00 PM - 5:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`6:00 PM - 6:30 PM`)">6:00 PM - 6:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`9:00 PM - 9:30 PM`)">9:00 PM - 9:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`10:00 PM - 10:30 PM`)">10:00 PM - 10:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"> </li>
+      <li onclick="selectTime(`11:00 PM - 11:30 PM`)">11:00 PM - 11:30 PM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+      <li onclick="selectTime(`12:00 AM - 12:30 AM`)">12:00 AM - 12:30 AM <img src="'.plugins_url('images/CheckCircle.svg', __FILE__).'" class="img-fluid center-block"></li>
+     
     </ul>
 		  </div>
 		  </div>
 		 
 		    ';
 		    echo '</div></div>';
-			echo '<label class="mmobile_level" >Your message</label>';
 			echo '<div class="row mb-3"><div class="col">';
 			echo '<textarea class="form-control text-field" name="cf-message"  placeholder="Message..." required="required" autocomplete="off"  value="' . ( isset( $_POST["cf-message"] ) ? esc_attr( $_POST["cf-message"] ) : '' ) . '" rows="3"/></textarea>';
 			echo '</div></div>';
-			echo '<div class="row"><div class="col text-center"><button type="submit" class="g-recaptcha btn btn-primary qc-submit-btn submit_btn1"><b>Submit</b></button></div></div>';
+			echo '<div class="row"><div class="col text-center"><button type="submit" class="g-recaptcha btn btn-primary qc-submit-btn submit_btn1">Schedule Demo</button></div></div>';
 			echo '<div class="row"><div class="col text-center"><button disabled type="submit" class=" btn btn-primary qc-submit-btn submit_btn"><div class="waviy">
 			<span style="--i:1">S</span>
 			<span style="--i:2">u</span>
@@ -269,10 +217,12 @@ if ( !class_exists('schedule_visit', false) ) {
 				
 			}
 
-			if(!preg_match('/^\+?([0-9]{1,4})\)?[-. ]?([0-9]{10})$/',$mobile_no)){
+			if(!preg_match('/^[+][0-9\-\+\(\) ]{4,23}$/',$mobile_no)){
 				array_push($this->schedule_errors, "Please enter a valid mobile number");
 			}
-			
+			// if(!preg_match('/^\+?([0-9]{1,4})\)?[-. ]?([0-9]{10})$/',$mobile_no)){
+			// 	array_push($this->schedule_errors, "Please enter a valid mobile number");
+			// }
 			
 			return $this->schedule_errors;
 		
@@ -312,8 +262,14 @@ if ( !class_exists('schedule_visit', false) ) {
 
 				$dropdowntimezone = $_POST["dropdowntimezone"];
 
-				$booking_date = date("F j, Y",strtotime($_POST["booking_date"]));
-				
+				$booking_date = date("Y-m-d",strtotime($_POST["booking_date"]));
+				$formatted_date = date("l, j F Y", strtotime($booking_date));
+				// $date = $_POST["booking_date"]; // Assuming the input format is "Y-m-d"
+				// $timestamp = strtotime($date);
+				// $database_date = date($date,"Y-m-d");
+				// // Format the date using strftime to get the day name
+				// $dayName = strftime('%A', $timestamp);
+				// $booking_date = $dayName . date(", j F Y", $timestamp);
 				$booking_time = $_POST["booking_time"];
 				$message = esc_textarea($_POST["cf-message"]);
 
@@ -451,7 +407,7 @@ if ( !class_exists('schedule_visit', false) ) {
 								</tr>
 								<tr>
 									<td align="left" width="200" style="border: 1px solid #F28B0C; padding: 2px;">Date</td>
-									<td align="left" width="300" style="border: 1px solid #F28B0C; padding: 2px;">'.$booking_date.'</td>
+									<td align="left" width="300" style="border: 1px solid #F28B0C; padding: 2px;">'.$formatted_date.'</td>
 								</tr>
 								<tr>
 									<td align="left" width="200" style="border: 1px solid #F28B0C; padding: 2px;">Time</td>
@@ -485,12 +441,21 @@ if ( !class_exists('schedule_visit', false) ) {
 								$data['success']='<div class="row success">
 								<div class="col-md-12">
 									<div class="card">
-										<img src="'.plugins_url('images/emojione_white-heavy-check-mark.png', __FILE__).'" class="img-fluid center-block">
+										
 										<div class="card-body">
-											<h5 class="card-title text-center">Thank You!<br/> Your schedule has been booked successfully.</h5>
+											<h5 class="card-title text-center">Your schedule has been booked successfully.</h5>
 											<p class="text-center" style="font-size: 12px;margin-bottom:30px;">One of our Product Experts will contact you soon.</p>
+											<div class="sucess_message_and_selectDateTime">
+												<ul>
+											<li><img src="'.plugins_url('images/Vector.svg', __FILE__).'" alt=""><p style="margin-left: 5px;">30 Minute Meeting</p></li>
+											<li><img src="'.plugins_url('images/CalendarCheck.svg', __FILE__).'" alt=""><p><span>Date</span> <br>
+											'.$formatted_date.'</p></li>
+											<li><img src="'.plugins_url('images/Timer.svg', __FILE__).'" alt=""><p><span>Time</span> <br>
+											'.$booking_time.'</p></li>
+											</ul>								
+                                            </div>
 											<a href="https://www.revechat.com/" class="text-center" target="_blank" >
-											<button class="btn btn-primary okay-btn" onClick="backToPrevious()" style="font-size: 16px;">Visit Homepage</button>
+											<button class="btn btn-primary okay-btn" onClick="backToPrevious()" style="font-size: 16px;">Return Homepage</button>
 											</a>
 										</div>
 									</div>
@@ -574,7 +539,7 @@ if ( !class_exists('schedule_visit', false) ) {
 								</tr>
 								<tr>
 									<td align="left" width="200" style="border: 1px solid #F28B0C; padding: 2px;">Date</td>
-									<td align="left" width="300" style="border: 1px solid #F28B0C; padding: 2px;">'.$booking_date.'</td>
+									<td align="left" width="300" style="border: 1px solid #F28B0C; padding: 2px;">'.$formatted_date.'</td>
 								</tr>
 								<tr>
 									<td align="left" width="200" style="border: 1px solid #F28B0C; padding: 2px;">Time</td>
@@ -608,12 +573,21 @@ if ( !class_exists('schedule_visit', false) ) {
 								$data['success']='<div class="row success">
 								<div class="col-md-12">
 									<div class="card">
-										<img src="'.plugins_url('images/emojione_white-heavy-check-mark.png', __FILE__).'" class="img-fluid center-block">
+										
 										<div class="card-body">
-											<h5 class="card-title text-center">Thank You!<br/> Your schedule has been booked successfully.</h5>
+											<h5 class="card-title text-center">Your schedule has been booked successfully.</h5>
 											<p class="text-center" style="font-size: 12px;margin-bottom:30px;">One of our Product Experts will contact you soon.</p>
+											<div class="sucess_message_and_selectDateTime">
+											<ul>
+											<li><img src="'.plugins_url('images/Vector.svg', __FILE__).'" alt=""><p style="margin-left: 5px;">30 Minute Meeting</p></li>
+											<li><img src="'.plugins_url('images/CalendarCheck.svg', __FILE__).'" alt=""><p><span>Date</span> <br>
+											'.$formatted_date.'</p></li>
+											<li><img src="'.plugins_url('images/Timer.svg', __FILE__).'" alt=""><p><span>Time</span> <br>
+											'.$booking_time.'</p></li>
+											</ul>									
+                                            </div>
 											<a href="https://www.revechat.com/" class="text-center" target="_blank" >
-											<button class="btn btn-primary okay-btn" onClick="backToPrevious()" style="font-size: 16px;">Visit Homepage</button>
+											<button class="btn btn-primary okay-btn" onClick="backToPrevious()" style="font-size: 16px;">Return to Homepage</button>
 											</a>
 										</div>
 									</div>
